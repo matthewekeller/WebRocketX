@@ -1,0 +1,53 @@
+.BDT_Dialog_Layer {
+	position: absolute;
+	display: table;
+	top: 0px;
+	left: 0px;
+	height: 99%;
+	width: 99%;
+}
+.BDT_Dialog_Center {
+	position:fixed;
+    top:30%;
+    width:100%;
+}
+.BDT_Dialog_Decoration {
+	position:relative;
+    margin:0 auto;
+    text-align: center;
+    background-color: #ffffff;
+    display: table;    
+/* --    background-color: #DDDDDD;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFFFF', endColorstr='#BBBBBB');
+    background-image: -webkit-gradient(  linear,  left top,  left bottom,  color-stop(0.1, #FFFFFF),  color-stop(1, #BBBBBB)  );
+    background-image: -moz-linear-gradient(  center top,  #FFFFFF 10%,  #BBBBBB 100%  ); -- */
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -khtml-border-radius: 15px;
+    border-radius: 15px;
+    -moz-box-shadow: 0 1px 8px #666666, 0 1px 4px #000000;
+    -webkit-box-shadow: 0 1px 8px #666666, 0 1px 4px #000000;
+    -khtml-box-shadow: 0 1px 8px #666666, 0 1px 4px #000000;
+    box-shadow: 0 1px 8px #666666, 0 1px 4px #000000;	
+}
+ 
+div.AsyncDebugDiv {display:inline-block;background-color:white;}
+
+div.AsyncDebugDiv textarea {width:800px;height:400px;}
+
+div.BlockInteractionWithPage {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    background-color: #ffffff;
+    opacity: 0.0;
+    filter: alpha(opacity=0); /* filter:alpha for IE8 and earlier */
+    height: 100%;
+    width: 100%;    
+}
+
+ 
