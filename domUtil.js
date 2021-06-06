@@ -1,3 +1,7 @@
+// Copyright 2021 to WebRocketX under the
+// GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
+// See license file for more details
+
 function DomUtil(){
     var me = this;
                       

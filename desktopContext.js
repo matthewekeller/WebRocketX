@@ -1,3 +1,7 @@
+// Copyright 2021 to WebRocketX under the
+// GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
+// See license file for more details
+
 // hash change event management
 var currentHashId = "";
 var lastHashId = "";
