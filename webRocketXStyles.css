@@ -4,6 +4,8 @@ GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 See license file for more details
 */
 
+/* version 1.7  11/19/2021 */
+
 .BDT_Dialog_Layer {
 	position: absolute;
 	display: table;
@@ -55,5 +57,3 @@ div.BlockInteractionWithPage {
     height: 100%;
     width: 100%;    
 }
-
- 

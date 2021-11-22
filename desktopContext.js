@@ -2,6 +2,8 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
+// version 1.7  11/19/2021
+
 // hash change event management
 var currentHashId = "";
 var lastHashId = "";

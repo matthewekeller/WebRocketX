@@ -2,6 +2,8 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
+// version 1.7  11/19/2021
+
 function AsyncRequest() {
     this.successCallbackReference = null;
     this.failureCallbackReference = null;
@@ -409,8 +411,12 @@ function Webapi() {
         changeDisplayForProgress();
         
         var parameterList=parameters;
-        if ( (typeof pageLoadTimeStamp != "undefined")&&(pageLoadTimeStamp!="") ) { 
-            parameterList = parameterList+"&pageLoadTimeStamp="+pageLoadTimeStamp;        
+        if ( (typeof pageLoadTimeStamp != "undefined")&&(pageLoadTimeStamp!="") ) {
+            var csrfTokenName = "pageLoadTimeStamp"; 
+            if ( (typeof pageLoadTimeStampParamName != "undefined")&&(pageLoadTimeStampParamName!="") ) {
+                csrfTokenName=pageLoadTimeStampParamName;
+            }
+            parameterList = parameterList+"&"+csrfTokenName+"="+pageLoadTimeStamp;        
         }
         var sendMethod = "post";
         if (staticPage) {
