@@ -1,4 +1,4 @@
-![Image title](https://webrocketx.com/images/logo.jpg)
+![WebRocketX](https://webrocketx.com/images/logo.jpg)
 <br/>
 <b>Welcome to WebRocketX&copy;.  Develop web applications 10 times more efficiently with this super light and  super fast
 content delivery system.  WebRocketX is so intuitive and effective that anyone using it immediately wonders where
