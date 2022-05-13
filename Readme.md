@@ -46,3 +46,20 @@ and style sheets, and to use third party widget libraries.
 for a user to tamper with. Furthermore, since unused and unauthorized views are not cached client side, a bad actor
 does not have an attack surface provided to them.  Frameworks like Vue, Angular, and React give all users the administrator account attack surface by
 default, as cached views, unless the administrator web application is downloaded and managed as a separate application.
+<br/><br/>
+<b>What WebRocketX is not</b>
+<br/><br/>
+<ins>Not a server side solution</ins>, because its front end (browser) components are not coupled to back end (server) memory components.  
+The only relationship between what is delivered from the server and the WebRocketX framework are some simple conventions for delivery of the 
+HTML to the browser.  This decoupled architecture leaves the developer free to use any backend framework they desire such as Django, Ruby on Rails, Spring MVC, 
+Php, Asp, Struts, etc.  Content is delivered from the server as HTML and sent from WebRocketX as form parameters.  It is as simple as that.                        
+<br/><br/>
+<ins>Not a CSS or layout solution</ins>.  It is a content caching and delivery API designed to easily make your dynamic web application into a SPA.
+A developer is free to layout their web application any way they desire.
+The look and feel of this informational website is not indicative of how your website will look when using WRX.  
+<br/><br/>
+<ins>Not SEO compliant for static websites</ins>.
+In fact, this static informational website, you are reading right now, does not use the WRX SPSW because the search engines will not properly index the pages.  
+The use of WRX for static websites is primarily a concept only usage and unfortunately the search engines are not ready for the indexing of SPA websites.
+None of the single page frameworks such as React, Angular, or Vue are SEO compliant, beyond their landing pages.
+On the other hand, WRX is a very good fit for dynamic web applications, especially sites that require a user to login to manage any kind of account or business.
