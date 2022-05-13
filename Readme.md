@@ -29,3 +29,20 @@ JSMVC solutions, like Angular.
     <li>Like full page architecture, WebRocketX expects layout coming from the server to include data. This is different than JSMVC architecture where data is delivered separately from the layout in JSON objects. However, WebRocketX does support JSON when needed, but is not a JSON centric paradigm.</li>
     <li>Like JSMVC architecture, WebRocketX is a <a href="https://webrocketx.com/singlePageApplication.html">Single Page web Application</a> (SPA) and relies on AJAX calls to submit data and bring in new views.</li>
 </ul>
+<br/>
+<b>Other great things about WebRocketX</b>
+<br/><br/>
+Written <ins>entirely in javascript</ins>, using Jquery as an API to the browser, it will run on all major browsers and even on mobile devices.
+<br/><br/>
+Allows a web application developer to easily create a rich user experience using <ins>standard HTML</ins> and javascript, similar to the 
+experience of using a major desktop operating system such as Apple or Windows.  Yet, it is extremely <ins>light weight</ins> executing a 
+small amount of code, and stores much of the user's state on the browser <ins>minimizing the need to communicate</ins> with the server.
+<br/><br/>
+Provides the web application developer with a <ins>structured platform</ins> in which to deliver and manage content within the browser.  
+Yet, although it is structured, it still leaves the developer completely free to leverage the power and convenience of standard HTML 
+and style sheets, and to use third party widget libraries.
+<br/><br/>
+<ins>Inherently secure</ins> because the server side html rendering paradigm stores the user's authorization in a server session where it is difficult
+for a user to tamper with. Furthermore, since unused and unauthorized views are not cached client side, a bad actor
+does not have an attack surface provided to them.  Frameworks like Vue, Angular, and React give all users the administrator account attack surface by
+default, as cached views, unless the administrator web application is downloaded and managed as a separate application.
