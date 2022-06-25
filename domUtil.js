@@ -2,7 +2,7 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.7  11/19/2021
+// version 1.8  06/25/2022
 
 function DomUtil(){
     var me = this;
@@ -156,12 +156,18 @@ function DomUtil(){
     }
             
     function removeFirstChildElement(parentElement) {
+    	var parentElementObject = me.getElement(parentElement);
         //removes specified child and also returns handle to child element
-        var childObj = me.getFirstChildElement(parentElement);
+        var childObj = me.getFirstChildElement(parentElementObject);
         if (childObj != null) {
             // use native call here instead of jquery
             // because jquery destroys data attribues in its remove operation
-            parentElement.removeChild(childObj);            
+        	try {
+        		parentElementObject.removeChild(childObj);
+        	}
+        	catch (e) {
+        		alert(e);
+        	}
         }               
         return childObj;        
     }

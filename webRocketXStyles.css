@@ -4,7 +4,7 @@ GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 See license file for more details
 */
 
-/* version 1.7  11/19/2021 */
+/* version 1.8  06/25/2022 */
 
 .BDT_Dialog_Layer {
 	position: absolute;
@@ -16,7 +16,7 @@ See license file for more details
 }
 .BDT_Dialog_Center {
 	position:fixed;
-    top:30%;
+    top:20%;
     width:100%;
 }
 .BDT_Dialog_Decoration {

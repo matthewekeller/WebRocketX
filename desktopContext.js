@@ -2,7 +2,7 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.7  11/19/2021
+// version 1.8  06/25/2022
 
 // hash change event management
 var currentHashId = "";
@@ -272,6 +272,15 @@ function DesktopContext(){
     thisInstance.back = back;    
     thisInstance.processJsOnload = processJsOnload;
     thisInstance.setPageTitle = setPageTitle;
+    thisInstance.safeRemoveAllChildElements = safeRemoveAllChildElements;
+    
+    function safeRemoveAllChildElements(targetObject) {
+    	// use remove first child, which contains a direct DOM call, then remove all children using a jquery based call
+        // the reason to do this is because jquery destroys all data attributes and events when executing empty, even when
+        // the entire dom object has other references
+        domUtil.removeFirstChildElement(targetObject);
+        domUtil.removeAllChildElements(targetObject);
+    }
     
     function getDeskTopHistory() {
         return deskTopHistoryArray;
@@ -294,7 +303,7 @@ function DesktopContext(){
         // truncate history down to the welcome page               
         while (deskTopHistoryArray.length>1){
             var deskTopHistoryObject = deskTopHistoryArray.pop();
-            domUtil.removeAllChildElements(deskTopHistoryObject.getAttribute("targetId"));          
+            thisInstance.safeRemoveAllChildElements(deskTopHistoryObject.getAttribute("targetId"));          
         }
         
         attributeArray = new Array();        
@@ -386,8 +395,7 @@ function DesktopContext(){
         // use remove first child, which contains a direct DOM call, then remove all children using a jquery based call
         // the reason to do this is because jquery destroys all data attributes when executing empty, even when
         // the entire dom object has other references
-        domUtil.removeFirstChildElement(targetObject);
-        domUtil.removeAllChildElements(targetObject);               
+        thisInstance.safeRemoveAllChildElements(targetObject);
         domUtil.appendChildElement(targetObject,capsuleObject);
     }
    
@@ -420,7 +428,7 @@ function DesktopContext(){
         }     
     }
      
-    function injectCapsule(incomingCapsuleObject,browserBackButtonDriven) {
+    function injectCapsule(incomingCapsuleObject,browserBackButtonDriven,context) {
         var incomingCapsuleId = incomingCapsuleObject.id;    
         var incomingCapsuleType = incomingCapsuleObject.getAttribute("capsuleType");
         var incomingTargetId  = incomingCapsuleObject.getAttribute("targetId");
@@ -468,7 +476,7 @@ function DesktopContext(){
             var backSize = parseInt(historyIndex)+1;
             while (deskTopHistoryArray.length>backSize){                
                 var deskTopHistoryObject = deskTopHistoryArray.pop();                       
-                domUtil.removeAllChildElements(deskTopHistoryObject.getAttribute("targetId"));
+                thisInstance.safeRemoveAllChildElements(deskTopHistoryObject.getAttribute("targetId"));
             }                                    
             
             thisInstance.addCapsuleToPage(incomingCapsuleObject) ; 
@@ -501,14 +509,17 @@ function DesktopContext(){
             }                      
             else {
                 // Remove everything in history since last visit
-                // including the incoming page id      
+                // including removing the incoming page id if context is a fresh injection 
+            	// do not remove incoming page id if we are just re-adding it because it will strip the events from the nodes
                 var foundId = false;      
                 while (!foundId){
                     var deskTopHistoryObject = deskTopHistoryArray.pop();
                     if (deskTopHistoryObject.id==incomingCapsuleId) {
                         foundId = true;
-                    }          
-                    domUtil.removeAllChildElements(deskTopHistoryObject.getAttribute("targetId"));
+                    } 
+                    if ((!foundId)||(context=="injectNewCapsule")) {
+                    	thisInstance.safeRemoveAllChildElements(deskTopHistoryObject.getAttribute("targetId"));
+                    }
                 }
             }
             
@@ -539,7 +550,7 @@ function DesktopContext(){
         // In fact this is the mechanism for writing an error to the page header
         // or do any other type of system wide custom server side error handling.
         if (capsuleObject.getAttribute("capsuleType").toUpperCase() != "DATA") {          
-            thisInstance.injectCapsule(capsuleObject,browserBackButtonDriven);
+            thisInstance.injectCapsule(capsuleObject,browserBackButtonDriven,"injectNewCapsule");
         }
         thisInstance.processJsOnload(capsuleObject);        
     }
@@ -561,7 +572,7 @@ function DesktopContext(){
                 webapi.submitReload(capsuleToShow,browserBackButtonDriven);
                 
             } else {                
-                thisInstance.injectCapsule(capsuleToShow,browserBackButtonDriven);
+                thisInstance.injectCapsule(capsuleToShow,browserBackButtonDriven,"setCapsuleById");
             }
         } else {
             //handle appropriately
@@ -632,7 +643,7 @@ function DesktopContext(){
 // simplified methods for developer use -----------------------------
 
 function dtBack() {
-    desktopContext.back(false);    
+	desktopContext.back(false);    
 }
 
 function dtInit() {
