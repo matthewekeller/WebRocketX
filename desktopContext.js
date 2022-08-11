@@ -1,8 +1,9 @@
 // Copyright 2021 to WebRocketX under the
+
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.8  06/25/2022
+// version 1.9  08/11/2022
 
 // hash change event management
 var currentHashId = "";
@@ -271,6 +272,7 @@ function DesktopContext(){
     thisInstance.getPreviousStackId = getPreviousStackId;
     thisInstance.back = back;    
     thisInstance.processJsOnload = processJsOnload;
+    thisInstance.processJsReturn = processJsReturn;
     thisInstance.setPageTitle = setPageTitle;
     thisInstance.safeRemoveAllChildElements = safeRemoveAllChildElements;
     
@@ -573,6 +575,7 @@ function DesktopContext(){
                 
             } else {                
                 thisInstance.injectCapsule(capsuleToShow,browserBackButtonDriven,"setCapsuleById");
+                thisInstance.processJsReturn(capsuleToShow);
             }
         } else {
             //handle appropriately
@@ -626,18 +629,31 @@ function DesktopContext(){
             
     function processJsOnload(capsule) {
         
-        // capsule onload
-        var onloadMethod = capsule.getAttribute("jsOnload");
-        if ( (onloadMethod!=null) && (onloadMethod!="") ) {
+        var jsOnloadMethod = capsule.getAttribute("jsOnload");
+        if ( (jsOnloadMethod!=null) && (jsOnloadMethod!="") ) {
             try {                
-                var onloadFunctionWrapped = Function("capsule",onloadMethod);
-                onloadFunctionWrapped(capsule);                
+                var jsOnloadMethodWrapped = Function("capsule",jsOnloadMethod);
+                jsOnloadMethodWrapped(capsule);                
             }
             catch (e) {
-                alert("Javascript onload failed.  Method="+onloadMethod+" Error message="+e.message);
+                alert("Javascript jsOnload failed.  Method="+jsOnloadMethod+" Error message="+e.message);
             }
         }                                                                     
-    }                                
+    }
+    
+    function processJsReturn(capsule) {
+        
+        var jsReturnMethod = capsule.getAttribute("jsReturn");
+        if ( (jsReturnMethod!=null) && (jsReturnMethod!="") ) {
+            try {                
+                var jsReturnMethodWrapped = Function("capsule",jsReturnMethod);
+                jsReturnMethodWrapped(capsule);                
+            }
+            catch (e) {
+                alert("Javascript jsReturn failed.  Method="+jsReturnMethod+" Error message="+e.message);
+            }
+        }                                                                     
+    }    
 }
 
 // simplified methods for developer use -----------------------------

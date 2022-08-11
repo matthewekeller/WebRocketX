@@ -2,7 +2,7 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.8  06/25/2022
+// version 1.9  08/11/2022
 
 function AsyncRequest() {
     this.successCallbackReference = null;
