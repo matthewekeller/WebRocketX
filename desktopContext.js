@@ -59,7 +59,7 @@ function registerLandingPage() {
     if ((startingTarget!=undefined)&&(startingTarget!=null)) {
         var startingCapsule = $(startingTarget).find(".metaCapsule")[0]
         if ((startingCapsule!=undefined)&&(startingCapsule!=null)) {            
-                                   
+        	currentHashId = startingCapsule.id;                       
             if ( staticPage ) {
                 //debugger;
                 staticEntryDisplayedHash = window.location.hash; // only set here
