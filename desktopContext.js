@@ -3,7 +3,7 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.9  08/11/2022
+// version 1.9.1  08/13/2022
 
 // hash change event management
 var currentHashId = "";
