@@ -1,8 +1,10 @@
-// Copyright 2021 to WebRocketX under the
+// Copyright 2022 to WebRocketX under the
+
+
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.9.1  08/13/2022
+// version 1.9.2  09/1/2022
 
 function AsyncRequest() {
     this.successCallbackReference = null;

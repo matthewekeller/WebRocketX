@@ -1,13 +1,16 @@
-// Copyright 2021 to WebRocketX under the
+// Copyright 2022 to WebRocketX under the
+
 
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.9.1  08/13/2022
+// version 1.9.2  09/1/2022
 
 // hash change event management
+
 var currentHashId = "";
 var lastHashId = "";
+var lastHashBackwardId = "";
 var currentHistoryIndex = ""
 var lastHistoryIndex = "";
 var doHashChangeNavigation = true;
@@ -85,12 +88,12 @@ function registerLandingPage() {
 
 function reRegisterLandingPageAtEntryPoint(popTheHashParam) {    
     // we have returned to the landing page before the original registration
-    // and we also can go back no further because this code would have not had a chance to execute
+    // and we also can go back no further because this code would not have had a chance to execute
     // after the go(-1)
     // so re-register
     var displayedHashIdLocal = getDisplayedHashID();
     if (displayedHashIdLocal=="") {
-        //alert("re-register");
+    	//alert("re-register");
         popTheHash=popTheHashParam;
         registerLandingPage();                                
     }   
@@ -113,6 +116,7 @@ function bindHashChange() {
 	        // hash change is caused by new injection
 	        
 	        lastHashId = currentHashId;
+	        lastHashBackwardId = "";
 	        lastHistoryIndex = currentHistoryIndex;
 	        
 	        currentHashId = displayedHashId;
@@ -147,10 +151,12 @@ function bindHashChange() {
 	            } // staticPage
 	            // dynamic page                    
 	            else {
+	            	//debugger;
 	                var historyStack = desktopContext.getDeskTopHistory();
 	                var topStackId = historyStack[historyStack.length-1].id;   
 	                if (popTheHash==true) {                
 	                    lastHashId = currentHashId;
+	                    lastHashBackwardId = currentHashId;
 	                    currentHashId = displayedHashId; 
 	                    if (topStackId==displayedHashId) {                    
 	                        popTheHash=false;
@@ -166,19 +172,19 @@ function bindHashChange() {
 	                    // debugger;                                              
 	                    if (historyStack.length > 0) {
 	                        var previousStackId = desktopContext.getPreviousStackId();
-	                                                                                                                    
 	                        if (previousStackId==displayedHashId) {
 	                            // a back button was pressed
 	                            lastHashId = currentHashId;
+	                            lastHashBackwardId = currentHashId;
 	                            currentHashId = displayedHashId;                                                                                                        
 	                            desktopContext.back(true);
 	                            return;                                                                                           
 	                        }
+	                        // this is the browser forward button, or navigating back to untracked page
 	                        else {
-	                            // debugger;  
-	                            // this is the browser forward button or a back after a menu selection (including an init)
-	                            if (lastHashId==displayedHashId) {                                                                                                      
-	                                // this is a browser forward button so roll back so that no pop is made
+	                            // debugger;
+                            	// this is a browser forward button so roll back so that no pop is made
+                            	if (lastHashBackwardId==displayedHashId) {		                            	
 	                                doHashChangeNavigation=false;
 	                                window.history.go(-1);
 	                                
@@ -188,21 +194,35 @@ function bindHashChange() {
 	                                // so re-register
 	                                reRegisterLandingPageAtEntryPoint(popTheHash);
 	                                                            
-	                                return;    
-	                            }                        
-	                            else {                            
-	                                // just keep on going back until we step out of the capsulework
-	                                popTheHash=true;
-	                                window.history.go(-1);
-	                                
-	                                // we have returned to the landing page before the original registration
-	                                // and we also can go back no further because this code would have not had a chance to execute
-	                                // after the go(-1)
-	                                // so re-register
-	                                reRegisterLandingPageAtEntryPoint(false); // conditionally modifies popTheHash
-	                                                            
 	                                return;
-	                            }                                            
+                            	}
+                            	// if this is not a forward then we are going back from or onto an untracked capsule
+                            	// find the landing capsule and go there, and pop the address hash conditionally
+                            	else {
+                            		
+                            		// debugger;                            		
+                            		var browserBackButtonDriven = false; // will cause popping of the hash in the address bar
+                            		var landingcapsuleId = "";
+                            		
+                            		var currentCapsuleTracked = desktopContext.isTrackedPage(desktopContext.activeCapsule);
+                            		if (currentCapsuleTracked) {
+                            			landingcapsuleId = previousStackId;
+                            		}
+                            		else {
+                            			landingcapsuleId = desktopContext.getTopStackId();                            			
+                            		}
+                  
+    	                            if (landingcapsuleId==displayedHashId) {
+    	                            	browserBackButtonDriven = true;
+    	                            	lastHashId = currentHashId;
+                                		lastHashBackwardId = currentHashId;	  
+    	                            	currentHashId = displayedHashId;
+    	                            }
+    	                            
+    	                            desktopContext.setCapsuleById(landingcapsuleId,browserBackButtonDriven);
+                            		return;
+                            	}	                            		                                
+	                                                          
 	                        }
 	                    } // something in the history stack                                           
 	                } // a back or forward button browser button was pressed 
@@ -259,17 +279,18 @@ function DesktopContext(){
     
     thisInstance.idPresentInHistory = idPresentInHistory;
     thisInstance.getDeskTopHistoryObject = getDeskTopHistoryObject;
-    thisInstance.latestCapsuleIsTracked = latestCapsuleIsTracked;
     thisInstance.calculateNextModalTargetLevel = calculateNextModalTargetLevel;
     thisInstance.generateModalTarget = generateModalTarget;
     
     thisInstance.setCapsuleInTarget = setCapsuleInTarget;
-    thisInstance.addCapsuleToPage = addCapsuleToPage;        
+    thisInstance.isTrackedPage = isTrackedPage;        
+    thisInstance.addCapsuleToPage = addCapsuleToPage;
     thisInstance.injectCapsule = injectCapsule;
     thisInstance.injectNewCapsule = injectNewCapsule;
     thisInstance.setCapsuleById = setCapsuleById;
     thisInstance.setCapsuleByHashDepth = setCapsuleByHashDepth;
     thisInstance.getPreviousStackId = getPreviousStackId;
+    thisInstance.getTopStackId = getTopStackId;
     thisInstance.back = back;    
     thisInstance.processJsOnload = processJsOnload;
     thisInstance.processJsReturn = processJsReturn;
@@ -301,21 +322,23 @@ function DesktopContext(){
             alert("initialize() not supported for static pages.");
             return;
         };
-        
-        // truncate history down to the welcome page               
-        while (deskTopHistoryArray.length>1){
-            var deskTopHistoryObject = deskTopHistoryArray.pop();
-            thisInstance.safeRemoveAllChildElements(deskTopHistoryObject.getAttribute("targetId"));          
+                
+        // check to see if we are already on the welcome page
+        if (deskTopHistoryArray.length>1){        	                
+	        // truncate history down to the welcome page               
+	        while (deskTopHistoryArray.length>1){
+	            var deskTopHistoryObject = deskTopHistoryArray.pop();
+	            thisInstance.safeRemoveAllChildElements(deskTopHistoryObject.getAttribute("targetId"));          
+	        }
+	        
+	        attributeArray = new Array();                
+	        currentHashId = "";
+	        lastHashId = "";                
+	        doHashChangeNavigation = true;
+	        newHashIdAdded = false;
+	        popTheHash=true;
+	        window.history.go(-1);
         }
-        
-        attributeArray = new Array();        
-        
-        currentHashId = "";
-        lastHashId = "";
-        doHashChangeNavigation = true;
-        newHashIdAdded = false;
-        popTheHash=true;
-        window.history.go(-1);
     }
     
     function idPresentInHistory(id) {
@@ -335,18 +358,7 @@ function DesktopContext(){
             }
         }
         return null;
-    }
-    
-    // The timing of the calling of this function will affect its outcome
-    function latestCapsuleIsTracked() {       
-        var currentCapsuleId = thisInstance.activeCapsule.id;
-        var idOnTopOfHistoryStack = deskTopHistoryArray[deskTopHistoryArray.length-1].id;
-                
-        if (currentCapsuleId==idOnTopOfHistoryStack) {
-            return true;
-        }
-        return false;
-    } 
+    }        
     
     function calculateNextModalTargetLevel() {
         // find most recent modal object
@@ -391,8 +403,13 @@ function DesktopContext(){
     }
     
     function setCapsuleInTarget(capsuleObject) {
-        var targetId  = capsuleObject.getAttribute("targetId");
+    	
+        var targetId  = capsuleObject.getAttribute("targetId");        
         var targetObject = domUtil.getElement(targetId);
+        
+        if (targetObject==null) {
+        	throw new Error("No DOM element found for capsule targetId = "+targetId);        	
+        }
         
         // use remove first child, which contains a direct DOM call, then remove all children using a jquery based call
         // the reason to do this is because jquery destroys all data attributes when executing empty, even when
@@ -401,9 +418,16 @@ function DesktopContext(){
         domUtil.appendChildElement(targetObject,capsuleObject);
     }
    
+    function isTrackedPage(paramCapsuleObject) {
+    	if ( (paramCapsuleObject.getAttribute("trackPage") == null) || (paramCapsuleObject.getAttribute("trackPage") == "") || (paramCapsuleObject.getAttribute("trackPage").toUpperCase() == "TRUE") ) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     function addCapsuleToPage(incomingCapsuleObject) {
         // add capsule and history
-        if ( (incomingCapsuleObject.getAttribute("trackPage") == null) || (incomingCapsuleObject.getAttribute("trackPage") == "") || (incomingCapsuleObject.getAttribute("trackPage").toUpperCase() == "TRUE") ) {                                                  
+        if ( thisInstance.isTrackedPage(incomingCapsuleObject) ) {                                                  
             deskTopHistoryArray.push(incomingCapsuleObject);
             
             // uncomment for debugging
@@ -501,6 +525,17 @@ function DesktopContext(){
         }
         // dynamic page
         else {
+        	        	
+        	// data type capsules can be autoinjected if desired, but of course will not be tracked
+        	// if not autoinjected it will be up to the developer to place the data
+            if (incomingCapsuleObject.getAttribute("capsuleType").toUpperCase() == "DATA") {
+            	var targetId  = incomingCapsuleObject.getAttribute("targetId");
+            	if (targetId!=null) {
+            		thisInstance.setCapsuleInTarget(incomingCapsuleObject);
+            	}
+        		return;
+            }
+        	
             var idInHistory = thisInstance.idPresentInHistory(incomingCapsuleId);
                         
             // Update hash with capsule id
@@ -546,14 +581,8 @@ function DesktopContext(){
         if ((capsuleObject.getAttribute("saveResponse")!=null)&&(capsuleObject.getAttribute("saveResponse").toUpperCase() == "TRUE")) {
             $(capsuleObject).data("responseText",responseText);                        
         }
-                
-        // If we come into here as data it means that we don't want to auto inject 
-        // but we still might want to process the jsOnload.
-        // In fact this is the mechanism for writing an error to the page header
-        // or do any other type of system wide custom server side error handling.
-        if (capsuleObject.getAttribute("capsuleType").toUpperCase() != "DATA") {          
-            thisInstance.injectCapsule(capsuleObject,browserBackButtonDriven,"injectNewCapsule");
-        }
+                                  
+        thisInstance.injectCapsule(capsuleObject,browserBackButtonDriven,"injectNewCapsule");        
         thisInstance.processJsOnload(capsuleObject);        
     }
         
@@ -595,6 +624,20 @@ function DesktopContext(){
         thisInstance.setPageTitle(capsuleObject);                         
     }       
     
+    function getTopStackId() {
+        var topStackId = "";                             
+        if (deskTopHistoryArray.length > 0) {
+        	topStackId = deskTopHistoryArray[deskTopHistoryArray.length - 1].id;
+        }
+        else {
+            // We have some untracted pages between our current capsule (possibly including current) and the base of the stack,
+            // or we are already at the base.            
+            // Just get the base of the stack.
+        	topStackId = deskTopHistoryArray[0].id;
+        }
+        return topStackId;
+    }
+    
     function getPreviousStackId() {
         var previousStackId = "";                             
         if (deskTopHistoryArray.length > 1) {
@@ -618,12 +661,20 @@ function DesktopContext(){
         if (staticPage) {
             window.history.go(-1);
         }
-        else {                    
-            var previousStackId = thisInstance.getPreviousStackId();
+        else {
+        	// if we are coming backwards off of an untracked capsule then display the
+        	// top of the stack instead of the next entry lower
+        	var stackId = "";
+        	if ( thisInstance.isTrackedPage(thisInstance.activeCapsule) ) {
+        	    stackId = thisInstance.getPreviousStackId();
+        	}
+        	else {
+        		stackId = thisInstance.getTopStackId();
+        	}
                 
             // will be popped in injectCapsule for cases where latest capsule is tracked 
             // and not a result of browser back button
-            thisInstance.setCapsuleById(previousStackId,browserBackButtonDriven);  
+            thisInstance.setCapsuleById(stackId,browserBackButtonDriven);  
         }                                                           
     }
             
