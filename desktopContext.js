@@ -821,6 +821,7 @@ function removeCapsuleFromHistory(capsuleId) {
 }
 
 function dtBack() {
+	dtCloseUntrackedModal();
 	desktopContext.back(false);    
 }
 
