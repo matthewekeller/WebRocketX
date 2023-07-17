@@ -1,10 +1,10 @@
-// Copyright 2022 to WebRocketX under the
+// Copyright 2023 to WebRocketX under the
 
 
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.9.2  09/1/2022
+// version 1.10.0  07/16/2023
 
 // hash change event management
 
@@ -15,6 +15,7 @@ var currentHistoryIndex = ""
 var lastHistoryIndex = "";
 var doHashChangeNavigation = true;
 var popTheHash = false;
+var popTheHashCallback = null;
 var newHashIdAdded = false;
 var staticEntryDisplayedHash = "";
 
@@ -38,6 +39,30 @@ $(document).ready(function(){
 	    registerLandingPage();
 	}
 });
+
+function clearUntrackedModalsAndErrors(currentHashId) {
+	// when user calls this directly to close an untracked modal
+	// they should not supply the currentHashId
+	// because this will clear the current modal since undefined will not be equal to top stack id
+	
+	// close all untracked modals that are not the current view
+	var untrackedModalsArray = desktopContext.getUntrackedModalsArray();
+	if (untrackedModalsArray.length>0) {
+		var topStackId = untrackedModalsArray[untrackedModalsArray.length-1].id;
+		if (topStackId!=currentHashId) {
+			while (untrackedModalsArray.length>0){				
+		        var untrackedModalCapsule = untrackedModalsArray.pop();
+		        if (untrackedModalCapsule.id!=undefined) {
+		        	const element = document.getElementById(untrackedModalCapsule.id);
+		        	element.remove();
+		        }		                  
+		    }
+		}
+	}
+    
+	// clear communication error
+	$('#communicationErrorAlertWrapper').hide();	
+}
 
 function isStaticEntryPage() {
     //alert("lastHistoryIndex="+lastHistoryIndex); 
@@ -105,6 +130,8 @@ function bindHashChange() {
 	    var displayedHashId = getDisplayedHashID();
 	    var displayedHistoryIndex = getDisplayedHistoryIndex();
 	    
+	    clearUntrackedModalsAndErrors(displayedHashId);
+	    
 	    try {                
 	        dtNavigationCallback();               
 	    }
@@ -160,6 +187,11 @@ function bindHashChange() {
 	                    currentHashId = displayedHashId; 
 	                    if (topStackId==displayedHashId) {                    
 	                        popTheHash=false;
+	                        // used to call something after initialize
+	                        if (popTheHashCallback!=null) {
+	                        	popTheHashCallback();
+	                        	popTheHashCallback=null;
+	                        }
 	                        return;                               
 	                    }
 	                    else {
@@ -269,9 +301,11 @@ function DesktopContext(){
     //private vars
     var attributeArray = new Array();
     var deskTopHistoryArray = new Array();
+    var untrackedModalsArray = new Array();
     
     // methods
     thisInstance.getDeskTopHistory = getDeskTopHistory;
+    thisInstance.getUntrackedModalsArray = getUntrackedModalsArray;
     thisInstance.setAttribute=setAttribute;
     thisInstance.getAttribute=getAttribute;        
     
@@ -292,10 +326,11 @@ function DesktopContext(){
     thisInstance.getPreviousStackId = getPreviousStackId;
     thisInstance.getTopStackId = getTopStackId;
     thisInstance.back = back;    
+    thisInstance.runCapsuleFunctions = runCapsuleFunctions;
     thisInstance.processJsOnload = processJsOnload;
     thisInstance.processJsReturn = processJsReturn;
     thisInstance.setPageTitle = setPageTitle;
-    thisInstance.safeRemoveAllChildElements = safeRemoveAllChildElements;
+    thisInstance.safeRemoveAllChildElements = safeRemoveAllChildElements;            
     
     function safeRemoveAllChildElements(targetObject) {
     	// use remove first child, which contains a direct DOM call, then remove all children using a jquery based call
@@ -308,6 +343,10 @@ function DesktopContext(){
     function getDeskTopHistory() {
         return deskTopHistoryArray;
     } 
+    
+    function getUntrackedModalsArray() {
+        return untrackedModalsArray;
+    }
             
     function setAttribute(id,object) {
         attributeArray.put(id,object);
@@ -317,11 +356,16 @@ function DesktopContext(){
         return attributeArray.get(id);
     }                        
         
-    function initialize() {
+    function initialize(initCallBack) {
         if (staticPage) {
             alert("initialize() not supported for static pages.");
             return;
-        };
+        }
+        
+        if (initCallBack == undefined) {
+        	alert("A callback must be sent to the initialize method.");
+            return;
+        }
                 
         // check to see if we are already on the welcome page
         if (deskTopHistoryArray.length>1){        	                
@@ -337,7 +381,11 @@ function DesktopContext(){
 	        doHashChangeNavigation = true;
 	        newHashIdAdded = false;
 	        popTheHash=true;
+	        popTheHashCallback=initCallBack;
 	        window.history.go(-1);
+        }
+        else {
+        	initCallBack();
         }
     }
     
@@ -439,7 +487,14 @@ function DesktopContext(){
             }
             alert(qsummary);
             */
-        }                                                                       
+        }
+        else {
+        	// probably dead code because this is screened out earlier but leaving here just in case
+        	// untracked modals should not change hash or set active capsule etc, so need to be screened before here
+        	if (incomingCapsuleObject.getAttribute("capsuleType").toUpperCase()=="MODAL") {        		
+        		untrackedModalsArray.push(incomingCapsuleObject);
+        	}
+        }
                           
         thisInstance.setCapsuleInTarget(incomingCapsuleObject);
         
@@ -526,12 +581,37 @@ function DesktopContext(){
         // dynamic page
         else {
         	        	
-        	// data type capsules can be autoinjected if desired, but of course will not be tracked
-        	// if not autoinjected it will be up to the developer to place the data
-            if (incomingCapsuleObject.getAttribute("capsuleType").toUpperCase() == "DATA") {
+        	var isErrorPage = false;
+        	var errorPageAttribute = incomingCapsuleObject.getAttribute("errorPage");
+        	if ( ( errorPageAttribute!=null) && ( errorPageAttribute.toUpperCase() == "TRUE") ) {
+        		isErrorPage = true;
+        	}
+        	
+        	var isUntrackedModal = false;
+        	if ( !thisInstance.isTrackedPage(incomingCapsuleObject) ) {
+        		if (incomingCapsuleObject.getAttribute("capsuleType").toUpperCase()=="MODAL") {
+        			isUntrackedModal = true;
+        		}
+        	}
+        		        	
+        	// Data type capsules can be autoinjected if desired by sending a targetId, 
+        	// but of course will not be tracked or change the hash.
+        	// If not autoinjected it will be up to the developer to place the data.
+        	// Untracked modal pages will be automatically injected to a modal target level (set earlier by the framework)
+        	// and must have an id so they can be removed,
+        	// but also will not be tracked or change the hash.
+            if ( (incomingCapsuleObject.getAttribute("capsuleType").toUpperCase() == "DATA") || isErrorPage || isUntrackedModal) {
             	var targetId  = incomingCapsuleObject.getAttribute("targetId");
             	if (targetId!=null) {
             		thisInstance.setCapsuleInTarget(incomingCapsuleObject);
+            		
+            		if (incomingCapsuleObject.getAttribute("capsuleType").toUpperCase() == "MODAL") {
+            			if (incomingCapsuleObject.id==null) {
+            				alert("Modal page must have capsule id.");
+            				return;
+            			}            			
+            			untrackedModalsArray.push(incomingCapsuleObject);
+            		}            		
             	}
         		return;
             }
@@ -540,9 +620,18 @@ function DesktopContext(){
                         
             // Update hash with capsule id
             // Only update if not going back
-            if ( !idInHistory ) {
-                newHashIdAdded = true;                                                            
-                window.location = "#nav=" + incomingCapsuleId;                                                 
+            if ( !idInHistory ) {            	            	           	
+            	// no reason for a reload to change the hash
+            	// also setting newHashIdAdded to true when its not true
+            	// causes a skip of the view change when pushing the back button
+            	// because a new id would cause and immediate hash change which we
+            	// should ignore
+            	var currentDisplayedHash = window.location.hash;
+            	var generatedHash = "#nav=" + incomingCapsuleId;            	
+            	if (currentDisplayedHash!=generatedHash) {
+            		newHashIdAdded = true;
+            		window.location = "#nav=" + incomingCapsuleId;
+            	}
             }                      
             else {
                 // Remove everything in history since last visit
@@ -654,10 +743,7 @@ function DesktopContext(){
     
     // Do not call this back directly, it should be called through the browser back button
     // hash change event or through webapiBack
-    function back(browserBackButtonDriven) {
-        // clear communication error
-        $('#communicationErrorAlertWrapper').hide();
-        
+    function back(browserBackButtonDriven) {    	                        
         if (staticPage) {
             window.history.go(-1);
         }
@@ -677,48 +763,79 @@ function DesktopContext(){
             thisInstance.setCapsuleById(stackId,browserBackButtonDriven);  
         }                                                           
     }
-            
-    function processJsOnload(capsule) {
-        
-        var jsOnloadMethod = capsule.getAttribute("jsOnload");
-        if ( (jsOnloadMethod!=null) && (jsOnloadMethod!="") ) {
+      
+    function runCapsuleFunctions(functionString,capsule,context) {
+    	// should have never instructed developers to put the word capsule in, so clean it up
+    	let functionStringCleaned=functionString.replaceAll("(capsule);","|");
+    	functionStringCleaned=functionStringCleaned.replaceAll("(capsule);","|");
+    	functionStringCleaned=functionStringCleaned.replaceAll("();","|");
+    	functionStringCleaned=functionStringCleaned.replaceAll("()","|");
+    	let functionArray = functionStringCleaned.split("|");
+    	for(var i=0; i < functionArray.length; i++) {        		
+            let methodName = functionArray[i].trim();
+            if (methodName=="") {
+            	break;
+            }
             try {                
-                var jsOnloadMethodWrapped = Function("capsule",jsOnloadMethod);
-                jsOnloadMethodWrapped(capsule);                
+                if (typeof window[methodName] === 'function') {
+            		window[methodName](capsule);
+        		} else {
+        			alert("Javascript "+context+" failed.  Method="+methodName+" doesn't exist.");
+        		}
             }
             catch (e) {
-                alert("Javascript jsOnload failed.  Method="+jsOnloadMethod+" Error message="+e.message);
+                alert("Javascript "+context+" failed.  Method="+methodName+" Error message="+e.message);
+                break;
             }
+        }
+    }
+    
+    function processJsOnload(capsule) {        
+        let jsOnloadMethod = capsule.getAttribute("jsOnload");
+        if ( (jsOnloadMethod!=null) && (jsOnloadMethod!="") ) {
+        	thisInstance.runCapsuleFunctions(jsOnloadMethod,capsule,"jsOnload");  
         }                                                                     
     }
     
-    function processJsReturn(capsule) {
-        
-        var jsReturnMethod = capsule.getAttribute("jsReturn");
+    function processJsReturn(capsule) {        
+        let jsReturnMethod = capsule.getAttribute("jsReturn");
         if ( (jsReturnMethod!=null) && (jsReturnMethod!="") ) {
-            try {                
-                var jsReturnMethodWrapped = Function("capsule",jsReturnMethod);
-                jsReturnMethodWrapped(capsule);                
-            }
-            catch (e) {
-                alert("Javascript jsReturn failed.  Method="+jsReturnMethod+" Error message="+e.message);
-            }
+        	thisInstance.runCapsuleFunctions(jsReturnMethod,capsule,"jsReturn");
         }                                                                     
     }    
 }
 
 // simplified methods for developer use -----------------------------
 
+// this is useful to remove a create page after you are done with it so that the user will
+// not use the back button to land on a stale create page
+// you could set trackPage to false instead but that prohibits you from doing side flows from the create page
+function removeCapsuleFromHistory(capsuleId) {
+	let desktophistory = desktopContext.getDeskTopHistory();
+	for (i = 0; i < desktophistory.length; i++) {
+	    if (desktophistory[i].id == capsuleId) {
+	    	desktophistory.splice(i, 1);
+	        break;
+	    }
+	}
+}
+
 function dtBack() {
 	desktopContext.back(false);    
 }
 
-function dtInit() {
+// use to close untracked modals so that you can return to
+// an untracked main page without stepping over it
+function dtCloseUntrackedModal() {	
+	clearUntrackedModalsAndErrors();	
+}
+
+function dtInit(initCallBack) {
     if (staticPage) {
         alert("dtInit() not supported for static pages.");
         return;
     }
-    desktopContext.initialize();    
+    desktopContext.initialize(initCallBack);    
 }
 
 function dtSetCapsuleById(viewId) {

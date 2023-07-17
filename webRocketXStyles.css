@@ -1,11 +1,11 @@
 /*
- Copyright 2022 to WebRocketX under the
+ Copyright 2023 to WebRocketX under the
 
 
  GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
  See license file for more details
 
- version 1.9.2  09/1/2022
+ version 1.10.0  07/16/2023
 */
 
 .BDT_Dialog_Layer {
@@ -18,7 +18,7 @@
 }
 .BDT_Dialog_Center {
 	position:fixed;
-    top:20%;
+    top:5%;
     width:100%;
 }
 .BDT_Dialog_Decoration {

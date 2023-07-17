@@ -1,10 +1,10 @@
-// Copyright 2022 to WebRocketX under the
+// Copyright 2023 to WebRocketX under the
 
 
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.9.2  09/1/2022
+// version 1.10.0  07/16/2023
 
 function DomUtil(){
     var me = this;

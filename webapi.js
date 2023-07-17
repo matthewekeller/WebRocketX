@@ -1,10 +1,10 @@
-// Copyright 2022 to WebRocketX under the
+// Copyright 2023 to WebRocketX under the
 
 
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.9.2  09/1/2022
+// version 1.10.0  07/16/2023
 
 function AsyncRequest() {
     this.successCallbackReference = null;
@@ -27,6 +27,8 @@ function Webapi() {
        
     me.silentMode = false;
     me.browserBackButtonDriven = false;
+    me.disableSendingCsrfToken = false;
+    me.useGetRequest = false;
        
     // setters
     me.setClearBackStack = setClearBackStack;
@@ -35,11 +37,18 @@ function Webapi() {
     me.setFailureCallbackReference = setFailureCallbackReference;    
     me.setUrl = setUrl;
     me.addTagIdToHideDuringProgress = addTagIdToHideDuringProgress;
-    me.addTagIdToShowDuringProgress = addTagIdToShowDuringProgress;   
-    
+    me.addTagIdToShowDuringProgress = addTagIdToShowDuringProgress;       
     me.setSilentMode = setSilentMode;
+    me.setDisableSendingCsrfToken = setDisableSendingCsrfToken;
+    me.setUseGetRequest = setUseGetRequest;
+    
+    function setUseGetRequest(useGetRequestParam) {
+        me.useGetRequest = useGetRequestParam;
+    }
      
-       
+    function setDisableSendingCsrfToken(disableSendingCsrfTokenParam) {
+        me.disableSendingCsrfToken = disableSendingCsrfTokenParam;
+    }   
     
     function setClearBackStack(clearBackStack) {
         me.asyncRequest.clearBackStack = clearBackStack;
@@ -198,7 +207,7 @@ function Webapi() {
                 try {
                     var returnObject = metaCapsuleObject;
                     if (jsonCapsule) {
-                        returnObject = JSON.parse(metaCapsuleObject.innerHTML);
+                        returnObject = JSON.parse(metaCapsuleObject.innerText);
                     }
                     me.asyncRequest.successCallbackReference(returnObject);
                 }
@@ -353,9 +362,10 @@ function Webapi() {
        
     
     // public functions
-    me.submitReload = submitReload;    
+    me.submitReload = submitReload;
     me.submitAsync = submitAsync;    
     me.submitAsyncForm = submitAsyncForm;
+    me.submitAsyncFormMultiPart = submitAsyncFormMultiPart;
     me.serializeForm = serializeForm;
     
     function submitReload(capsuleToShow,browserBackButtonDrivenParam) {
@@ -366,6 +376,9 @@ function Webapi() {
         if ((asyncRequestObject != null)&&(asyncRequestObject != undefined)) {
             me.asyncRequest = asyncRequestObject;
             me.submitAsync(me.asyncRequest.parameters,true);
+        }
+        else {
+        	console.log("Original request is null or undefined.  Are you trying to reload the embedded landing page capsule.  Try injecting directly instead of using reload because the embedded capsule does not have a request.");
         }
     }
             
@@ -408,12 +421,10 @@ function Webapi() {
         }        
                                                                                                                                 
         // store parameters in request object
-        me.asyncRequest.parameters = parameters;                      
-                                     
-        changeDisplayForProgress();
+        me.asyncRequest.parameters = parameters;                                                                   
         
         var parameterList=parameters;
-        if ( (typeof pageLoadTimeStamp != "undefined")&&(pageLoadTimeStamp!="") ) {
+        if ( (typeof pageLoadTimeStamp != "undefined")&&(pageLoadTimeStamp!="")&&(me.disableSendingCsrfToken==false) ) {
             var csrfTokenName = "pageLoadTimeStamp"; 
             if ( (typeof pageLoadTimeStampParamName != "undefined")&&(pageLoadTimeStampParamName!="") ) {
                 csrfTokenName=pageLoadTimeStampParamName;
@@ -421,12 +432,22 @@ function Webapi() {
             parameterList = parameterList+"&"+csrfTokenName+"="+pageLoadTimeStamp;        
         }
         var sendMethod = "post";
-        if (staticPage) {
+        if (staticPage || me.useGetRequest) {
             sendMethod = "get";
         }
        
+        changeDisplayForProgress();
+        
         // send request
-        $.ajax({type:sendMethod,url:me.asyncRequest.url,data:parameterList,async:me.asyncRequest.asyncMode,datatype:'html',error:me.failureCallbackWrapper,success:me.successfulCallbackWrapper});                
+        $.ajax({
+        	type:sendMethod,
+        	url:me.asyncRequest.url,
+        	data:parameterList,
+        	async:me.asyncRequest.asyncMode,
+        	datatype:'html',
+        	error:me.failureCallbackWrapper,
+        	success:me.successfulCallbackWrapper
+        	});                
     }
             
     // send a form
@@ -441,6 +462,48 @@ function Webapi() {
             parameterString = parameterString + additionalParameters;
         }       
         me.submitAsync(parameterString,"true");        
+    }
+    
+    function submitAsyncFormMultiPart(formName) {
+    	
+    	var formObject = domUtil.verifyElementExists(formName);
+        if (formObject==null) {
+            throw "Could not find form "+formName+".";
+        }
+        
+        if (me.asyncRequest.url==undefined) {
+            alert("Error webapi.submitAsyncFormMultiPart: url undefined");
+            return;
+        }        
+                      
+        if (me.asyncRequest.successCallbackReference==undefined) {
+            alert("Error webapi.submitAsyncFormMultiPart: successCallbackReference undefined");
+            return;
+        }
+        if (me.asyncRequest.failureCallbackReference==undefined) {
+            alert("Error webapi.submitAsyncFormMultiPart: failureCallbackReference undefined");
+            return;
+        }
+        
+        var data = new FormData(formObject);
+        
+        // store data in request object, commented because no current use case for a re-execute of a file upload
+        // me.asyncRequest.data = data;  
+        
+        changeDisplayForProgress();
+        
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url:me.asyncRequest.url,
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            error:me.failureCallbackWrapper,
+        	success:me.successfulCallbackWrapper
+        });
+        
     }
     
     function serializeForm(formName) {
