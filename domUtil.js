@@ -4,7 +4,7 @@
 // GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
 // See license file for more details
 
-// version 1.10.0  07/16/2023
+// version 1.10.1  07/16/2023
 
 function DomUtil(){
     var me = this;
