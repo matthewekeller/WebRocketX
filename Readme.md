@@ -11,6 +11,7 @@ the page is through DOM insertion of HTML snippets using the <a href="https://we
 a single point of interaction with the server the developer has the following functionality provided by the API.
 <br/>
 <ul>
+    <li>Provides a SPA front end to any technology that delivers HTML from the backend, such as Springboot, PHP, Laravel, Django, Rails, etc.
     <li>Browser side control of user interaction during the async call</li>
     <li>Browser side error handling of server side exceptions</li>
     <li>Browser side view caching ~ Easily make the back button work perfectly.</li>
