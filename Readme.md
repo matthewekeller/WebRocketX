@@ -62,7 +62,6 @@ A developer is free to layout their web application any way they desire.
 The look and feel of this informational website is not indicative of how your website will look when using WRX.  
 <br/><br/>
 <ins>Not SEO compliant for static websites</ins>.
-In fact, this static informational website, you are reading right now, does not use the WRX SPSW because the search engines will not properly index the pages.  
 The use of WRX for static websites is primarily a concept only usage and unfortunately the search engines are not ready for the indexing of SPA websites.
 None of the single page frameworks such as React, Angular, or Vue are SEO compliant, beyond their landing pages.
 On the other hand, WRX is a very good fit for dynamic web applications, especially sites that require a user to login to manage any kind of account or business.
