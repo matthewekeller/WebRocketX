@@ -66,6 +66,9 @@ In fact, this static informational website, you are reading right now, does not 
 The use of WRX for static websites is primarily a concept only usage and unfortunately the search engines are not ready for the indexing of SPA websites.
 None of the single page frameworks such as React, Angular, or Vue are SEO compliant, beyond their landing pages.
 On the other hand, WRX is a very good fit for dynamic web applications, especially sites that require a user to login to manage any kind of account or business.
+<br/><br/>
+If you like WebRocketX.  Give us a star here in Github.  Thanks!
+<br/><br/>
 © 2022 GitHub, Inc.
 Terms
 Privacy
