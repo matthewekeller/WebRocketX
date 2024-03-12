@@ -7,5 +7,6 @@ To run locally.
 
 http://localhost:80/webRocketXDemoPHP/welcome.php
 
-5) Almost all webrocketX functionality is demonstrated in this application.  It aint pretty but it gives you examples.
+5) Almost all WebrocketX functionality is demonstrated in this application.  It aint pretty but it gives you examples.
+   A pretty application running WebRocketX can be found at AdsP2p.net.
 6) Look in demo.js for your js examples of using the Webapi 
