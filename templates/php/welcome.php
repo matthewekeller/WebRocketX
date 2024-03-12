@@ -7,10 +7,10 @@
         
         <script language="javascript" type="text/javascript" src="javascripts/jquery/jquery-ui-1.11.4.custom/external/jquery/jquery-1.12.4.min.js"></script>
         
-        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_9_2/domUtil.js"></script>
-        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_9_2/desktopContext.js"></script>
-        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_9_2/webapi.js"></script>
-        <link rel="stylesheet" type="text/css" href="javascripts/webRocketX/v1_9_2/webRocketXStyles.css">
+        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_10_1/domUtil.js"></script>
+        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_10_1/desktopContext.js"></script>
+        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_10_1/webapi.js"></script>
+        <link rel="stylesheet" type="text/css" href="javascripts/webRocketX/v1_10_1/webRocketXStyles.css">
         
         <script type="text/javascript">           
             var asyncDebugMode = true;
