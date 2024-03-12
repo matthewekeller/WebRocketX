@@ -1,0 +1,201 @@
+body, table, p, td
+{
+/*font-size: 12pt;	*/
+font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+@media only screen and (max-width: 479px)  {
+    /* phone */
+    body, table, p, td
+    {    
+    font-size : 18pt;
+    } 
+    
+    span.header {
+        font-size:24pt;
+    }
+    
+    div.AsyncDebugDiv {
+        display:none;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    /* pc */
+    body, table, p, td
+    {
+    font-size : 12pt;
+    }
+    
+     span.header {
+        font-size:18pt;
+    }
+    
+            
+}
+
+
+table.bodytext {
+    background : white;
+    margin-left:auto; 
+    margin-right:auto;
+    margin-top: 5px;
+    width : 670px;
+    border-radius: 5px;        
+}
+
+div.bodytext {
+    background : white;
+    margin-left:auto; 
+    margin-right:auto;
+    margin-top: 5px;
+    width : 670px;
+    border-radius: 5px;        
+}
+
+table.expand {
+    width : 100%;
+    margin : 10px;
+}
+
+.expand>tbody>tr>td {
+    text-align : center;
+    padding : 10px;    
+}
+
+h1
+{
+font-family: Tubular;
+/*font-size : 22pt;*/
+color: maroon;
+text-align: center;
+line-height: 70%;
+}
+
+h2
+{
+/*font-size : 12pt;*/
+color: green;
+text-align: center;
+}
+
+form
+{
+margin: 0px; 
+padding: 0px;
+display: inline;
+}
+
+div.indent1 {    
+    padding-left: 20px;
+}
+
+div.indent2 {    
+    padding-left: 40px;
+}
+
+div.indent3 {    
+    padding-left: 60px;
+}
+
+
+ul.FormBody {
+ list-style-type: none; 
+ float: left;
+ margin: 0px;
+ padding: 0px;
+}
+ 
+ul.FormBody li.FormFieldTitle {
+ list-style-type: none; 
+ line-height: 13px;
+ float: left;
+ letter-spacing: 0px;
+ font-weight: 900;
+ /*font-size: 12px;*/
+ text-align: right;
+ margin: 0px;
+ padding-top: 6px;
+ padding-right: 0px;
+ padding-bottom: 0px;
+ padding-left: 0px;
+ width: 150px;
+}
+
+a {
+    /*font-size: 10pt;*/
+    font-weight: 900;
+}
+
+a.imageExpand:link img {
+    border: 1px solid black;
+}
+
+a.imageExpand:visited img {
+    border: 1px solid black;
+}
+
+a.imageExpand:hover img {
+    border: 1px solid black; 
+}
+
+a.imageExpand:active img {
+    border: 1px solid black;
+}
+
+img.blackBorder {
+    border: 1px solid black;
+}
+
+td.sectionBar {
+    background-color:#EEEEEE; 
+    /*width:870px;*/
+/*    font-size: 10pt;*/
+    font-weight: bold;
+    padding-left :10px;
+    line-height: 100%;
+}
+
+td.menuBar {
+    background-color:#EEEEEE; 
+    /*width:870px;*/
+/*    font-size: 10pt;    */
+    line-height: 100%;
+}
+
+tr.columnHeader td {
+/*    font-size: 10pt;*/
+    font-weight: bold;
+    text-align: left;    
+}
+
+tr.tableRow td {
+    /*font-size: 10pt;*/
+    text-align: left;    
+}
+
+table.sz14pt th{
+    /*font-size: 14pt;        */
+}
+
+table.sz14pt td{
+    /*font-size: 14pt;        */
+}
+
+table.sz10pt th {
+    /*font-size: 10pt;       */
+    text-align: center;
+}
+
+table.sz10pt td {
+    /*font-size: 10pt;*/
+    vertical-align: text-top;       
+}
+
+
+
+@media print { .noPrint {display:none; } } 
+
+
+
+ 
