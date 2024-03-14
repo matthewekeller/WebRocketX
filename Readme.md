@@ -72,13 +72,13 @@ On the other hand, WRX is a very good fit for dynamic web applications, especial
 
 <br/><br/>
 
-## Example Welcome Page For A Dynamic Web Application
+## Simple HTML Example For A Dynamic Web Application
 
 Runnable example templates for PHP and Django can be found in the templates folder in the source code.
 
-### Simple HTML Example
+### Welcome Page
 
-The welcome page is your web applications landing page, usually behind your login page.  The welcome page is where your SPA begins.  Here is an exmaple page in plain HTML.
+The welcome page is your web applications landing page, usually behind your login page.  The welcome page is where your SPA begins.  Key parts are the library includes, the framework variables settings, the starting target, and the communications error alert.
 
 ```html
 <!DOCTYPE html>
@@ -179,6 +179,18 @@ The welcome page is your web applications landing page, usually behind your logi
     </body>
 
 </html>
+```
+
+<br/><br/>
+
+### Example Injected Page
+
+This page will replace the main content.  It is wrapped in a capsule configured with meta data XML attributes.  The meta data is a type of declarative programming used by the framework to decide what to do with your content.
+
+```html
+<div id="test1" class="metaCapsule" capsuleType="inline" targetId="winMain" windowTitle="Test 1">
+    Hello World Page 2.
+</div>
 ```
 
 <br/><br/>
