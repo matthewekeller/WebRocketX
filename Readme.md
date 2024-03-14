@@ -183,8 +183,6 @@ The welcome page is your web applications landing page, usually behind your logi
 </html>
 ```
 
-<br/><br/>
-
 ### Example Injected Page
 
 This page will replace the main content.  We will put it in a file called test1.html.  It is wrapped in a capsule configured with meta data XML attributes.  The meta data is a type of declarative programming used by the framework to decide what to do with your content.
