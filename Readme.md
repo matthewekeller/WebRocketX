@@ -185,7 +185,7 @@ The welcome page is your web applications landing page, usually behind your logi
 
 ### Example Injected Page
 
-This page will replace the main content.  It is wrapped in a capsule configured with meta data XML attributes.  The meta data is a type of declarative programming used by the framework to decide what to do with your content.
+This page will replace the main content.  We will put it in a file called test1.html.  It is wrapped in a capsule configured with meta data XML attributes.  The meta data is a type of declarative programming used by the framework to decide what to do with your content.
 
 ```html
 <div id="test1" class="metaCapsule" capsuleType="inline" targetId="winMain" windowTitle="Test 1">
@@ -193,7 +193,21 @@ This page will replace the main content.  It is wrapped in a capsule configured 
 </div>
 ```
 
-<br/><br/>
-© 2022 GitHub, Inc.
-Terms
-Privacy
+### Example Javascript Function
+
+This call will replace the main content.
+
+```javascript
+function test1(){
+    var successfulCallback = function(innerHTMLObject) {                        
+       alert("this my callback");              
+    }
+        
+    var webapi = new Webapi();
+    webapi.setSuccessCallbackReference(successfulCallback);    
+    webapi.setUrl("test1.html");
+    webapi.submitAsync();    
+}
+```
+
+
