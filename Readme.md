@@ -69,6 +69,118 @@ None of the single page frameworks such as React, Angular, or Vue are SEO compli
 On the other hand, WRX is a very good fit for dynamic web applications, especially sites that require a user to login to manage any kind of account or business.
 <br/><br/>
 <b>If you like WebRocketX.  Give us a star here in Github.  Thanks!</b>
+
+<br/><br/>
+
+## Example Welcome Page For A Dynamic Web Application
+
+Runnable example templates for PHP and Django can be found in the templates folder in the source code.
+
+### Simple HTML Example
+
+The welcome page is your web applications landing page, usually behind your login page.  The welcome page is where your SPA begins.  Here is an exmaple page in plain HTML.
+
+```html
+<!DOCTYPE html>
+
+<html>
+    <head>
+                
+        <title>Welcome</title>
+
+         <!-- The jquery UI library should include draggable if you want to implement draggable modals-->
+        <script language="javascript" type="text/javascript" src="javascripts/jquery/jquery-ui-1.11.4.custom/external/jquery/jquery-1.12.4.min.js"></script>
+        
+        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_10_1/domUtil.js"></script>
+        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_10_1/desktopContext.js"></script>
+        <script language="javascript" type="text/javascript" charset="iso-8859-1" src="javascripts/webRocketX/v1_10_1/webapi.js"></script>
+        <link rel="stylesheet" type="text/css" href="javascripts/webRocketX/v1_10_1/webRocketXStyles.css">
+        
+        <script type="text/javascript">           
+            var asyncDebugMode = true;
+            var signInPageURI = "";
+            var pageLoadTimeStamp = "";
+            var modalTargetSpacing = 10;
+            var staticPage = false;
+            var disableNavigation = false;
+        </script> 
+
+        <link rel="stylesheet" type="text/css" href="styles/demo/styles.css">
+        <link rel="stylesheet" type="text/css" href="styles/demo/menu.css">
+        <meta name="viewport" content="width=device-width">    
+    </head>
+    
+    <body>             
+    
+        <!-- header -->        
+        <table class="bodytext">        
+            <tr>
+                <td width="20"></td>                    
+                <td>
+                    My Header                    
+                </td>
+                <td width="20"></td>                
+            </tr>
+            
+            <tr>
+                <td width="20"></td>                    
+                <td class="menuBar">
+                    <div id="menu"></div>                        
+                </td>
+                <td width="20"></td>
+            </tr>
+            
+        </table>
+        
+        <div id="errorSpan" style="color:red;text-align:center;"></div>
+                
+        <div id="winMain" class="startingTarget bodytext">
+            
+            <!-- Unused or default capsule attributes do not need to be included.  They are just included here for teaching purposes. -->
+            <div id="welcome" class="metaCapsule" capsuleType="inline" targetId="winMain" jsOnload="" reloadPage="false" saveOriginalRequest="false" saveResponse="false" trackPage="true" windowTitle="welcome" errorPage="false">
+                Hello World
+            </div>
+                                                        
+        </div>
+       
+        <!-- footer -->     
+        <table class="bodytext">        
+            <tr>
+                <td width="20"></td>                    
+                <td class="menuBar" style="padding: 10px 10px 10px 10px;">
+                    Powered By&nbsp;&nbsp; <a target="_blank" href="http://www.webrocketx.com" style="text-decoration: none;"><span style="color:black;background-color:white;font-weight:bold;">&nbsp;WebRocket</span><span style="color:red;background-color:white;font-weight:bold;">X&nbsp;</span></a>                     
+                </td>
+                <td width="20"></td>                
+            </tr>                       
+        </table>
+                
+        <div id="communicationErrorAlertWrapper" style="display:none;">
+                                                               
+            <div id="communicationErrorAlert" class="metaCapsule" capsuleType="modal">
+                <div id="dialogLayer" class="BDT_Dialog_Layer">
+                    <div class="BDT_Dialog_Center">
+                        <div class="BDT_Dialog_Decoration">                    
+                            <table class="expand">
+                                <tr>
+                                    <td>
+                                        <div id="communicationErrorMessage"></div>
+                                        <br/><br/>
+                                        <a href="#" onclick="$('#communicationErrorAlertWrapper').hide(); return false;">Ok</a>                            
+                                    </td>
+                                </tr>                            
+                            </table>                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+                 
+        </div>               
+        
+    </body>
+
+</html>
+```
+
 <br/><br/>
 © 2022 GitHub, Inc.
 Terms
