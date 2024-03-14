@@ -195,7 +195,7 @@ This page will replace the main content.  We will put it in a file called test1.
 
 ### Example Javascript Function
 
-This call will replace the content in winMain.
+This call will replace the content in winMain.  The really cool thing is that the back button on the browser will navigate back to the previous page perfectly but you will still be in one SPA page the entire time.  This is true of any navigation in the framework and you have complete and simple control if you decide that you want a page to always refresh from the server when you navigate back to it, instead of coming from browser cache.  Marking a page's capsule with the reloadPage attribute equal to "true" will resubmit the page to the server with all the same params it originally was requested with and even call the same callback that was originally assigned to it.
 
 ```javascript
 function test1(){
