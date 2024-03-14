@@ -139,6 +139,8 @@ The welcome page is your web applications landing page, usually behind your logi
             <!-- Unused or default capsule attributes do not need to be included.  They are just included here for teaching purposes. -->
             <div id="welcome" class="metaCapsule" capsuleType="inline" targetId="winMain" jsOnload="" reloadPage="false" saveOriginalRequest="false" saveResponse="false" trackPage="true" windowTitle="welcome" errorPage="false">
                 Hello World
+                <br/><br/>
+                <a href="#" onclick="test1();return false;">Test1</a>
             </div>
                                                         
         </div>
@@ -195,7 +197,7 @@ This page will replace the main content.  We will put it in a file called test1.
 
 ### Example Javascript Function
 
-This call will replace the main content.
+This call will replace the content in winMain.
 
 ```javascript
 function test1(){
