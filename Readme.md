@@ -78,7 +78,7 @@ Runnable example templates for PHP and Django can be found in the templates fold
 
 ### Welcome Page
 
-The welcome page is your web applications landing page, usually behind your login page.  The welcome page is where your SPA begins.  Key parts are the library includes, the framework variables settings, the starting target, and the communications error alert.
+The welcome page is your web applications landing page, usually behind your login page.  The welcome page is where your SPA begins.  Key parts are the library includes the framework variables settings, the starting target, and the communications error alert.
 
 ```html
 <!DOCTYPE html>
