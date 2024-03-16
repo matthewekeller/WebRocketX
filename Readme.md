@@ -72,7 +72,7 @@ On the other hand, WRX is a very good fit for dynamic web applications, especial
 
 ## Simple HTML Example For A Dynamic Web Application
 
-Runnable example templates for PHP and Django can be found in the templates folder in the source code.
+Runnable example templates for <b>PHP</b> and <b>Django</b> can be found in the templates folder in the source code.
 
 ### Welcome Page
 
