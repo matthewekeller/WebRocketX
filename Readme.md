@@ -199,7 +199,7 @@ This page will replace the main content.  We will put it in a file called test1.
 
 ```html
 <div id="test1" class="metaCapsule" capsuleType="inline" targetId="winMain" windowTitle="Test 1">
-    Hello World Page 2.
+    Hello World Test 1.
 </div>
 ```
 
