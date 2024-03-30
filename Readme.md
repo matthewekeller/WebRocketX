@@ -232,17 +232,17 @@ page is set to false.
 Attributes not included in the capsule will be set
 to their default values.  Required attributes are marked with an asterisk*.
 
-<ul class="bodyList">
+<ul>
     <li>
-        <u>id*</u> - Used to keep track of the page in the WebRocketX framework.  Relayed through capsuleId parameter in template example.  Using templates is not required.
+        <strong>id*</strong> - Used to keep track of the page in the WebRocketX framework.  Relayed through capsuleId parameter in template example.  Using templates is not required.
         <br/><br/>
     </li>
     <li>
-        <u>class*</u> - Must be set to the value "metaCapsule".  Used by the framework to locate the capsule div.
+        <strong>class*</strong> - Must be set to the value "metaCapsule".  Used by the framework to locate the capsule div.
         <br/><br/>
     </li>                                        
     <li>
-        <u>capsuleType*</u> - Can be set to the following four values, which determines how and if the capsule will be injected.
+        <strong>capsuleType*</strong> - Can be set to the following four values, which determines how and if the capsule will be injected.
         <ul>
             <br/>
             <li>                                   
@@ -270,17 +270,17 @@ to their default values.  Required attributes are marked with an asterisk*.
         </ul>
     </li>
     <li>
-        <u>targetId (*required if capsuleType is inline)</u> - Specifies the location where incoming html will be injected, when the capsule type is "inline".
+        <strong>targetId (*required if capsuleType is inline)</strong> - Specifies the location where incoming html will be injected, when the capsule type is "inline".
         <br/><br/>
     </li>
     <li>
-        <u>jsOnload</u> - Specifies a javascript method that will be called when the injection is complete.  
+        <strong>jsOnload</strong> - Specifies a javascript method that will be called when the injection is complete.  
         Very useful for registering autocompleters, jquery ui components, and any other kind of page load type operations.                                
         A handle to the capsule that the jsOnload function was declared in is always sent as a single parameter to your js function. 
         <br/><br/>
     </li>
     <li>
-        <u>jsReturn</u> - Specifies a javascript method that will be called when this page is returned to but not reloaded.  Returning
+        <strong>jsReturn</strong> - Specifies a javascript method that will be called when this page is returned to but not reloaded.  Returning
         to a page can be trigged by using the back button or calling dtSetCapsuleById.  This mechanism is useful when the
         developer desires part of the view to be refreshed, or any other code to be run, upon display either conditionally or unconditionally.  
         Since the application is running in a single page, conditions can be relayed between pages as global variables.        
@@ -288,26 +288,26 @@ to their default values.  Required attributes are marked with an asterisk*.
         <br/><br/>
     </li>
     <li>
-        <u>reloadPage</u> (default: false) - When this is true, navigating to this page in the browser stack will result in a fresh version of this content being retrieved from the server.  The original request will be resent, with all of its original parameters, and the original callback method will be called.
+        <strong>reloadPage</strong> (default: false) - When this is true, navigating to this page in the browser stack will result in a fresh version of this content being retrieved from the server.  The original request will be resent, with all of its original parameters, and the original callback method will be called.
         <br/><br/>
     </li>
     <li>
-        <u>skipReloadPageOnPrevious</u> (default: false) - When this is true, a navigation from this page to a page in the browser stack that is marked with a reload will block that destination page from reloading.  
+        <strong>skipReloadPageOnPrevious</strong> (default: false) - When this is true, a navigation from this page to a page in the browser stack that is marked with a reload will block that destination page from reloading.  
         This is particularly useful in allowing the developer to control whether different back flows to a reload page will cause it to reload or not.  For example, it is often undesireable when navigating
         back to a background page from a modal for that background page to reload.  However, it still might be desireable for that same background page to reload
         when it is navigated back to from a page that replaced it.
         <br/><br/>
     </li>
     <li>
-        <u>saveOriginalRequest</u> (default: false) - When set to true, the original request will be saved even if this is not a reload.
+        <strong>saveOriginalRequest</strong> (default: false) - When set to true, the original request will be saved even if this is not a reload.
         <br/><br/>
     </li>
     <li>
-        <u>saveResponse</u> (default: false) - When set to true, the response object is stored in the injected capsule div.  This can be later used to restore the injected content to its original state after edits by the user, by calling restoreAsyncResponse(id).  The most common case where this ability is desired is when the page has a cancel button.
+        <strong>saveResponse</strong> (default: false) - When set to true, the response object is stored in the injected capsule div.  This can be later used to restore the injected content to its original state after edits by the user, by calling restoreAsyncResponse(id).  The most common case where this ability is desired is when the page has a cancel button.
         <br/><br/>
     </li>
     <li>
-        <u>trackPage</u> (default: true) - Defaults to true specifying that this page is placed in the back stack for further reference.
+        <strong>trackPage</strong> (default: true) - Defaults to true specifying that this page is placed in the back stack for further reference.
         This setting is not relevant for the capsule types of data and json because those types are not navigable to begin with. 
         The developer can specify that this page should not be placed in the back stack by setting this attribute to false.   
         Setting trackPage to false is an ideal solution for pages that you do not want the user to go back to and then resubmit, 
@@ -315,11 +315,11 @@ to their default values.  Required attributes are marked with an asterisk*.
         <br/><br/>
     </li>
     <li>
-        <u>windowTitle</u> - Specifies the title to be set on the top of the browser.  Necessary because we never changes pages and therefore never update the title tag in the html header.
+        <strong>windowTitle</strong> - Specifies the title to be set on the top of the browser.  Necessary because we never changes pages and therefore never update the title tag in the html header.
         <br/><br/>
     </li>
     <li>
-        <u>errorPage</u> - Marks this page as a typed exception which will result in the developer defined successful callback being skipped and the developer defined failure callback being called.
+        <strong>errorPage</strong> - Marks this page as a typed exception which will result in the developer defined successful callback being skipped and the developer defined failure callback being called.
         <br/><br/>
     </li>
 </ul>
