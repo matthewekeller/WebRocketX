@@ -226,7 +226,7 @@ Can it possibly get any simpler?
 
 ## Full List Of Capsule Attributes Available In Dynamic Web App Mode
 
-The WebRocketX capsule architecture allows the developer to control much of the view behavior declaritively.  
+The WebRocketX capsule architecture allows the developer to control much of the view behavior declaratively.  
 Shown below are all the possible capsule attributes. This will give you an idea of much of the frameworks functionality, and how it covers the majority of user navigation use cases.               
 <br/>
 Attributes not included in the capsule will be set
