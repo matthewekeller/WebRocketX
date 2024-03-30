@@ -222,6 +222,7 @@ function test1(){
 
 Can it possibly get any simpler?
 
+<br/><br/>
 
 ## Full List Of Capsule Attributes Available In Dynamic Web App Mode
 
