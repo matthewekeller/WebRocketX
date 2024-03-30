@@ -268,15 +268,13 @@ to their default values.  Required attributes are marked with an asterisk*.
     <li>
         <u>jsOnload</u> - Specifies a javascript method that will be called when the injection is complete.  
         Very useful for registering autocompleters, jquery ui components, and any other kind of page load type operations.                                
-        <br/><br/>
         A handle to the capsule that the jsOnload function was declared in is always sent as a single parameter to your js function. 
     </li>
     <li>
         <u>jsReturn</u> - Specifies a javascript method that will be called when this page is returned to but not reloaded.  Returning
         to a page can be trigged by using the back button or calling dtSetCapsuleById.  This mechanism is useful when the
         developer desires part of the view to be refreshed, or any other code to be run, upon display either conditionally or unconditionally.  
-        Since the application is running in a single page, conditions can be relayed between pages as global variables.
-        <br/><br/>
+        Since the application is running in a single page, conditions can be relayed between pages as global variables.        
         A handle to the capsule that the jsReturn function was declared in is always sent as a single parameter to your js function.                                                              
     </li>
     <li>
