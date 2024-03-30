@@ -222,6 +222,93 @@ function test1(){
 
 Can it possibly get any simpler?
 
+
+## Full List Of Capsule Attributes Available In Dynamic Web App Mode
+               
+Listed here are all of the capsule attributes that WebRocketX supports in Dynamic Mode. 
+The framework is running in Dynamic Mode when the <u>staticPage</u> variable in the welcome
+page is set to false.
+<br/><br/>
+Attributes not included in the capsule will be set
+to their default values.  Required attributes are marked with an asterisk*.
+
+<ul class="bodyList">
+    <li>
+        <u>id*</u> - Used to keep track of the page in the WebRocketX framework.  Relayed through capsuleId parameter in template example.  Using templates is not required.
+    </li>
+    <li>
+        <u>class*</u> - Must be set to the value "metaCapsule".  Used by the framework to locate the capsule div.  
+    </li>                                        
+    <li>
+        <u>capsuleType*</u> - Can be set to the following four values, which determines how and if the capsule will be injected.
+        <ul>
+            <li>                                   
+                inline - Content will be injected in the div specified by the targetId attribute.
+            </li>
+            <li>
+                modal - Content will be injected in a floating modal layer.
+            </li>
+            <li>
+                data - Content will not be tracked for navigation by the framework.  The developer can decide whether to specify a targetId or place
+                the content on their own, or even use the content without placing it in the page.
+                The content will be returned to the developer in the callback, as the first parameter,
+                in the form of a DOM object of the capsule and its included contents. 
+                This is the ideal capsule type to use for refreshable smaller parts of the page that are not navigated as whole pages.  For example,
+                search results, tickers, etc.
+            </li>
+            <li>
+                json - Simply render the json text into the capsule server side and it will be delivered in the browser side callback already turned into a json object.
+                Sending json parameters to the server can be done by setting the value of a parameter to a json string using the AsyncParametersList object.
+            </li>
+        </ul>
+    </li>
+    <li>
+        <u>targetId (*required if capsuleType is inline)</u> - Specifies the location where incoming html will be injected, when the capsule type is "inline".
+    </li>
+    <li>
+        <u>jsOnload</u> - Specifies a javascript method that will be called when the injection is complete.  
+        Very useful for registering autocompleters, jquery ui components, and any other kind of page load type operations.                                
+        <br/><br/>
+        A handle to the capsule that the jsOnload function was declared in is always sent as a single parameter to your js function. 
+    </li>
+    <li>
+        <u>jsReturn</u> - Specifies a javascript method that will be called when this page is returned to but not reloaded.  Returning
+        to a page can be trigged by using the back button or calling dtSetCapsuleById.  This mechanism is useful when the
+        developer desires part of the view to be refreshed, or any other code to be run, upon display either conditionally or unconditionally.  
+        Since the application is running in a single page, conditions can be relayed between pages as global variables.
+        <br/><br/>
+        A handle to the capsule that the jsReturn function was declared in is always sent as a single parameter to your js function.                                                              
+    </li>
+    <li>
+        <u>reloadPage</u> (default: false) - When this is true, navigating to this page in the browser stack will result in a fresh version of this content being retrieved from the server.  The original request will be resent, with all of its original parameters, and the original callback method will be called.
+    </li>
+    <li>
+        <u>skipReloadPageOnPrevious</u> (default: false) - When this is true, a navigation from this page to a page in the browser stack that is marked with a reload will block that destination page from reloading.  
+        This is particularly useful in allowing the developer to control whether different back flows to a reload page will cause it to reload or not.  For example, it is often undesireable when navigating
+        back to a background page from a modal for that background page to reload.  However, it still might be desireable for that same background page to reload
+        when it is navigated back to from a page that replaced it.
+    </li>
+    <li>
+        <u>saveOriginalRequest</u> (default: false) - When set to true, the original request will be saved even if this is not a reload.
+    </li>
+    <li>
+        <u>saveResponse</u> (default: false) - When set to true, the response object is stored in the injected capsule div.  This can be later used to restore the injected content to its original state after edits by the user, by calling restoreAsyncResponse(id).  The most common case where this ability is desired is when the page has a cancel button.
+    </li>
+    <li>
+        <u>trackPage</u> (default: true) - Defaults to true specifying that this page is placed in the back stack for further reference.
+        This setting is not relevant for the capsule types of data and json because those types are not navigable to begin with. 
+        The developer can specify that this page should not be placed in the back stack by setting this attribute to false.   
+        Setting trackPage to false is an ideal solution for pages that you do not want the user to go back to and then resubmit, 
+        like a "create" page.  When the user goes back to an untracked page they will skip over it and land on the tracked page preceding it.                           
+    </li>
+    <li>
+        <u>windowTitle</u> - Specifies the title to be set on the top of the browser.  Necessary because we never changes pages and therefore never update the title tag in the html header.
+    </li>
+    <li>
+        <u>errorPage</u> - Marks this page as a typed exception which will result in the developer defined successful callback being skipped and the developer defined failure callback being called.
+    </li>
+</ul>
+
 ### Come Visit Our Website For More Details and Documentation
 
 <a href="https://webrocketx.com" target="_blank">Visit WebRocketX</a>
