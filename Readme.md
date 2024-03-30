@@ -224,11 +224,10 @@ Can it possibly get any simpler?
 
 
 ## Full List Of Capsule Attributes Available In Dynamic Web App Mode
-               
-Listed here are all of the capsule attributes that WebRocketX supports in Dynamic Mode. 
-The framework is running in Dynamic Mode when the <u>staticPage</u> variable in the welcome
-page is set to false.
-<br/><br/>
+
+The WebRocketX capsule architecture allows the developer to control much of the view behavior declaritively.  
+Shown below are all the possible capsule attributes. This will give you an idea of much of the frameworks functionality, and how it covers the majority of user navigation use cases.               
+<br/>
 Attributes not included in the capsule will be set
 to their default values.  Required attributes are marked with an asterisk*.
 
