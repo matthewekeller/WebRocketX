@@ -70,7 +70,7 @@ On the other hand, WRX is a very good fit for dynamic web applications, especial
 
 <br/><br/>
 
-## Installation
+## Installation Of Your Single Page Application
 
 Create a landing/welcome page as shown below and include the following libraries in it.  The landing page is usually best to locate behind your form login page.  In other words you forward the user to it after they login.  Everything but the jquery library is available in the WebRocketX root source code folder found above.
 
@@ -82,7 +82,7 @@ webapi.js
 webRocketXStyles.css
 ```
 
-## Simple HTML Example For A Dynamic Web Application
+## Simple HTML Example For A Dynamic Single Page Web Application (SPA)
 
 Runnable example templates for <b>PHP</b> and <b>Django</b> can be found in the templates folder in the source code.
 
