@@ -324,6 +324,62 @@ to their default values.  Required attributes are marked with an asterisk*.
     </li>
 </ul>
 
+## Benefits of making a Django Single Page Application (SPA)
+                                                                                       
+While SPA's are commonly equated to a heavy client side javascript framework combined with json services, it is still very possible to
+gain the benefits of a SPA while still rendering HTML server side, with our light javascript SPA framework.
+
+<ul>
+    <li>
+        <strong>Micro Request Advantages In UI State Maintenance</strong> 
+        - Refreshing just part of the page means an entire page doesn't have to be pulled every time.  Only an html snippet or json object needs to be
+        retrieved from the server.  This makes the UI developer's job much easier because they don't have to do things like template the header, menu, and footer into every
+        page or worry about the state of other data on the parts of the page outside the refresh area.  Even user input that has not been committed to the server is
+        safe as long as it is outside of the refreshed area.  Much of the pain of UI development disappears with micro requests.
+        <br/><br/>
+    </li>
+    <li>
+        <strong>Micro Request Advantages in Services</strong> 
+        - Since only targeted parts of a page are retrieved the data needed in these places becomes more specific.  This reduces the business logic
+        needed in services, which also simplifies retrieval from external applications such as databases and cloud services. 
+        <br/><br/>
+    </li>   
+    <li>
+        <strong>Storing More State In The Browser</strong> 
+        - The combination of caching views and refreshing only parts of the page results in much more state being persisted in the browser.  Therefore,
+        the developer will not need to make as many trips to the server to get this already present state.  This is a great benefit even on things
+        as simple as form submission, because when the server rejects submitted user input, the page with the form simply persists client side with all of its
+        user input still present.  We never lost the page.  On the other hand, a rejected form on a full page refresh will lose all user input, 
+        since the browser is in the process of displaying the next page and the form page is gone.
+        So in a full page refresh rejected form submission, the input would have to be sent to the server and redisplayed, 
+        re-rendering the entire form and restoring the unpersisted user input.
+        The form parameters would be restored from the request but not from the database because the submission was invalid so the data never made it that far.
+        If you don't care about your users you could show them an error message and make them type in everything all over again, which is done sometimes and very unfriendly. 
+        In the case of a single page Django application, using micro requests, the page was never left to begin with, and we are free to send back an error message
+        as a floating modal dialog.
+        <br/><br/>
+    </li>   
+    <li>
+        <strong>Structured View Navigation</strong> 
+        - Previously rendered views can be navigated to using their view identifiers.  Using capsule attributes, views can be specified as cacheable or force reload (so that they don't become stale).
+        <br/><br/>
+    </li>
+    <li>
+        <strong>User Interaction Control</strong> 
+        - Have you ever had issues with a user pressing a button twice?  Those kind of problems will no longer occur because WebRocketX puts a transparent layer over the UI
+        during round trips to the server that prevents user interaction.  The framework also shows a nice hourglass cursor to let the user know that something is happening.
+        <br/><br/>
+    </li>
+    <li>
+		<strong>Structured Error Handling</strong> 
+		- Server side errors and session timeouts can be a real hassle when a developer expects layout or data to come from an async callback.  WebRocketX standardizes error handling
+		and session timeout behavior so that nothing unpredictable can happen.  All responses are prescreened before the callback is sent to the developer callback to handle any issues.
+		Hooks are also provided to allow the developer to define custom behavior for callback failures.
+        <br/><br/>
+    </li>
+
+</ul>                        
+     
 ### Come Visit Our Website For More Details and Documentation
 
 <a href="https://webrocketx.com" target="_blank">Visit WebRocketX</a>
